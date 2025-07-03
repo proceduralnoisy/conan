@@ -51,8 +51,9 @@ class _CMakePresets:
             cache_variables["CMAKE_POLICY_DEFAULT_CMP0091"] = "NEW"
 
         if "BUILD_TESTING" not in cache_variables:
-            if conanfile.conf.get("tools.build:skip_test", check_type=bool):
-                cache_variables["BUILD_TESTING"] = "OFF"
+            cache_variables["BUILD_TESTING"] = (
+                "OFF" if conanfile.conf.get("tools.build:skip_test", check_type=bool) else "ON"
+            )
 
         preset_path = os.path.join(conanfile.generators_folder, "CMakePresets.json")
         multiconfig = is_multi_configuration(generator)
